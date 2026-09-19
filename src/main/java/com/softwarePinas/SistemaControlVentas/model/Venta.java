@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -32,6 +34,7 @@ public class Venta {
     @ManyToOne
     private Sucursal sucursal;
 
-
+    @OneToMany(mappedBy = "venta")
+    private List<DetalleVenta> detalleVentaList = new ArrayList<>();
 
 }
