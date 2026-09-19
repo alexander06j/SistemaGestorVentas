@@ -2,11 +2,10 @@ package com.softwarePinas.SistemaControlVentas.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data//getters, setters, toString, equals y hashCode
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

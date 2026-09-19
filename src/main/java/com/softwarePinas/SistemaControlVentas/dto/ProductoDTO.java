@@ -1,4 +1,16 @@
 package com.softwarePinas.SistemaControlVentas.dto;
 
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter @Setter
 public class ProductoDTO {
+
+    private Long id;
+    private String nombre;
+    private String categoria;
+    private Double precio;
+    private int cantidad;
+
 }
