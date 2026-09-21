@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface IProductoService {
 
-    public ProductoDTO save(ProductoDTO productoDTO);
+    ProductoDTO save(ProductoDTO productoDTO);
 
-    public List<ProductoDTO> findAll();
+    List<ProductoDTO> findAll();
 
-    public void deleteById(Long id);
+    void deleteById(Long id);
 
-    public ProductoDTO update(Long id, ProductoDTO productoDTO);
+    ProductoDTO update(Long id, ProductoDTO productoDTO);
 }

@@ -50,9 +50,9 @@ public class ProductoService implements IProductoService {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Producto no encontrado con el id: " + id));
         producto.setNombre(productoDTO.getNombre());
-        producto.setCategoria(producto.getCategoria());
-        producto.setCantidad(producto.getCantidad());
-        producto.setPrecio(producto.getPrecio());
+        producto.setCategoria(productoDTO.getCategoria());
+        producto.setCantidad(productoDTO.getCantidad());
+        producto.setPrecio(productoDTO.getPrecio());
         //guarda el producto
         return Mapper.toDTO(productoRepository.save(producto));
     }
