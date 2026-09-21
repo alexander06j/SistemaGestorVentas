@@ -15,6 +15,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter @Setter
 @Entity
+@Builder
 public class Producto {
 
     @Id

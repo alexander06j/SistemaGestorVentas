@@ -1,9 +1,12 @@
 package com.softwarePinas.SistemaControlVentas.service;
 
 import com.softwarePinas.SistemaControlVentas.dto.ProductoDTO;
+import com.softwarePinas.SistemaControlVentas.exception.NotFoundException;
 import com.softwarePinas.SistemaControlVentas.mapper.Mapper;
+import com.softwarePinas.SistemaControlVentas.model.Producto;
 import com.softwarePinas.SistemaControlVentas.repository.IProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +19,13 @@ public class ProductoService implements IProductoService {
 
     @Override
     public ProductoDTO save(ProductoDTO productoDTO) {
-        return null;
+        Producto producto = Producto.builder()
+                .nombre(productoDTO.getNombre())
+                .categoria(productoDTO.getCategoria())
+                .precio(productoDTO.getPrecio())
+                .cantidad(productoDTO.getCantidad())
+                .build();
+        return Mapper.toDTO(productoRepository.save(producto));
     }
 
     @Override
@@ -28,10 +37,23 @@ public class ProductoService implements IProductoService {
     @Override
     public void deleteById(Long id) {
 
+        //verificar la existencia del producto
+        if(!productoRepository.existsById(id)){
+            throw new RuntimeException("No existe el producto para eliminar con el id: " + id);
+        }
+        productoRepository.deleteById(id);
     }
 
     @Override
     public ProductoDTO update(Long id, ProductoDTO productoDTO) {
-        return null;
+        //buscar si el producto existe
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Producto no encontrado con el id: " + id));
+        producto.setNombre(productoDTO.getNombre());
+        producto.setCategoria(producto.getCategoria());
+        producto.setCantidad(producto.getCantidad());
+        producto.setPrecio(producto.getPrecio());
+        //guarda el producto
+        return Mapper.toDTO(productoRepository.save(producto));
     }
 }
