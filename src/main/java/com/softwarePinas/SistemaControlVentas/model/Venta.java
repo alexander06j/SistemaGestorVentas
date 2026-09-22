@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter @Setter
 @Entity
+@Builder
 public class Venta {
 
     @Id
