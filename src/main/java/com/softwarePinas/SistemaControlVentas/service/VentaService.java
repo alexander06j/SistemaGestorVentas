@@ -37,10 +37,18 @@ public class VentaService implements IVentaService{
         if(ventaDTO.getDetalleVentaDTOList() == null || ventaDTO.getDetalleVentaDTOList().isEmpty())
             throw new RuntimeException("Debe incluir al menos un producto");
 
+        //Buscar la sucursal
+        Sucursal sucursal = sucursalRepository.findById(ventaDTO.getIdSucursal()).orElse(null);
+        if(sucursal == null){
+            throw new NotFoundException("La Sucursal no fue encontrada");
+        }
+
+
         //se crea la venta(atributos sin relaciones)
         Venta venta = new Venta();
         venta.setFecha(ventaDTO.getFecha());
         venta.setEstado(ventaDTO.getEstado());
+        venta.setSucursal(sucursal);
         venta.setTotal(ventaDTO.getTotal());
 
         //Lista de detalles(con los productos)
