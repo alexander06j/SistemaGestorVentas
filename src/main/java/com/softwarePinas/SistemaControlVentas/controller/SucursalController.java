@@ -38,6 +38,7 @@ public class SucursalController {
     }
 
     //DELETE
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         sucursalService.deleteById(id);
         return ResponseEntity.noContent().build();

@@ -30,12 +30,14 @@ public class VentaController {
     }
 
     //PUT
+    @PutMapping("/{id}")
     public ResponseEntity<VentaDTO> update(@PathVariable Long id,
                                            @RequestBody VentaDTO ventaDTO){
         return ResponseEntity.ok(ventaService.update(id, ventaDTO));
     }
 
     //DELETE
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         ventaService.deleteById(id);
         return ResponseEntity.noContent().build();
