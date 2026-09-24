@@ -7,12 +7,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
 @Entity
+@Builder
 public class Venta {
 
     @Id
@@ -32,6 +35,7 @@ public class Venta {
     @ManyToOne
     private Sucursal sucursal;
 
-
+    @OneToMany(mappedBy = "venta")
+    private List<DetalleVenta> detalleVentaList = new ArrayList<>();
 
 }
