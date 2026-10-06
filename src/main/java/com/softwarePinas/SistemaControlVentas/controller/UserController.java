@@ -5,6 +5,7 @@ import com.softwarePinas.SistemaControlVentas.model.UserSec;
 import com.softwarePinas.SistemaControlVentas.service.IRoleService;
 import com.softwarePinas.SistemaControlVentas.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,11 +36,17 @@ public class UserController {
         return (ResponseEntity) user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
+
+    @Bean
     @PostMapping
     public ResponseEntity createUser(@RequestBody UserSec userSec) {
 
-        Set<Role> roleList = new HashSet<>();
+        Set roleList = new HashSet();
         Role readRole;
+
+        //encriptamos contraseña
+        userSec.setPassword(userService.encriptPassword(userSec.getPassword()));
 
         // Recuperar la Permission/s por su ID
         for (Role role : userSec.getRolesList()){
@@ -58,5 +65,6 @@ public class UserController {
         }
         return null;
     }
+
 
 }
