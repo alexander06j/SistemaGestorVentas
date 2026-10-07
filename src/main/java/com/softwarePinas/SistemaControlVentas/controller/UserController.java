@@ -7,6 +7,7 @@ import com.softwarePinas.SistemaControlVentas.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -25,30 +26,29 @@ public class UserController {
     private IRoleService roleService;
 
     @GetMapping
-    public ResponseEntity<List> getAllUsers() {
-        List users = userService.findAll();
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<List<UserSec>> getAllUsers() {
+        List<UserSec> users = userService.findAll();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getUserById(@PathVariable Long id) {
-        Optional user = userService.findById(id);
-        return (ResponseEntity) user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<UserSec> getUserById(@PathVariable Long id) {
+        Optional<UserSec> user = userService.findById(id);
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-
-
-    @Bean
     @PostMapping
-    public ResponseEntity createUser(@RequestBody UserSec userSec) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserSec> createUser(@RequestBody UserSec userSec) {
 
-        Set roleList = new HashSet();
+        Set<Role> roleList = new HashSet<Role>();
         Role readRole;
 
         //encriptamos contraseña
         userSec.setPassword(userService.encriptPassword(userSec.getPassword()));
 
-        // Recuperar la Permission/s por su ID
         for (Role role : userSec.getRolesList()){
             readRole = (Role) roleService.findById(role.getId()).orElse(null);
             if (readRole != null) {
@@ -65,6 +65,4 @@ public class UserController {
         }
         return null;
     }
-
-
 }

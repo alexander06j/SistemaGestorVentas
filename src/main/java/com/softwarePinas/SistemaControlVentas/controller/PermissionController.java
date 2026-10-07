@@ -25,12 +25,14 @@ public class PermissionController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity getPermissionById(@PathVariable Long id) {
         Optional permission = permissionService.findById(id);
         return (ResponseEntity) permission.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity createPermission(@RequestBody Permission permission) {
         Permission newPermission = permissionService.save(permission);
         return ResponseEntity.ok(newPermission);

@@ -6,6 +6,7 @@ import com.softwarePinas.SistemaControlVentas.service.IPermissionService;
 import com.softwarePinas.SistemaControlVentas.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -24,18 +25,21 @@ public class RoleController {
     private IPermissionService permissionService;
 
     @GetMapping
-    public ResponseEntity<List> getAllRoles(){
-        List roles = roleService.findAll();
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<List<Role>> getRoles(){
+        List<Role> roles = roleService.findAll();
         return ResponseEntity.ok(roles);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity getRoleById(@PathVariable Long id) {
         Optional role = roleService.findById(id);
         return (ResponseEntity) role.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity createRole(@RequestBody Role role) {
         Set<Permission> permissionList = new HashSet<>();
         Permission readPermission;
@@ -53,5 +57,15 @@ public class RoleController {
         return ResponseEntity.ok(newRole);
     }
 
+    @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Role> updateRole(@PathVariable Long id, @RequestBody Role role){
 
+        Role rol = (Role) roleService.findById(id).orElse(null);
+        if(rol!=null){
+            rol = role;
+        }
+        roleService.update(rol);
+        return ResponseEntity.ok(rol);
+    }
 }
