@@ -4,6 +4,7 @@ import com.softwarePinas.SistemaControlVentas.model.Role;
 import com.softwarePinas.SistemaControlVentas.model.UserSec;
 import com.softwarePinas.SistemaControlVentas.service.IRoleService;
 import com.softwarePinas.SistemaControlVentas.service.IUserService;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;

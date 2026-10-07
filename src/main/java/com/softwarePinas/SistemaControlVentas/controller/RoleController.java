@@ -4,6 +4,7 @@ import com.softwarePinas.SistemaControlVentas.model.Permission;
 import com.softwarePinas.SistemaControlVentas.model.Role;
 import com.softwarePinas.SistemaControlVentas.service.IPermissionService;
 import com.softwarePinas.SistemaControlVentas.service.IRoleService;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

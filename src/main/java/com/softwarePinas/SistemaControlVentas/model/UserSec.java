@@ -28,8 +28,6 @@ public class UserSec {
     private boolean accountNotLocked;
     private boolean credentialNotExpired;
 
-    //Usamos Set porque no permite repetidos
-    //List permite repetidos
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) //el eager me va  a cargar todos los roles
     @JoinTable (name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),//nombre de la tabla intermediaria, user_id & role_id son el nombre de las columnas
             inverseJoinColumns=@JoinColumn(name = "role_id"))

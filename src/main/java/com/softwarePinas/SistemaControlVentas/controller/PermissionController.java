@@ -2,6 +2,7 @@ package com.softwarePinas.SistemaControlVentas.controller;
 
 import com.softwarePinas.SistemaControlVentas.model.Permission;
 import com.softwarePinas.SistemaControlVentas.service.IPermissionService;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,5 +38,4 @@ public class PermissionController {
         Permission newPermission = permissionService.save(permission);
         return ResponseEntity.ok(newPermission);
     }
-
 }
